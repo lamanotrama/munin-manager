@@ -1,5 +1,10 @@
+#!/usr/bin/perl
+use strict;
+use warnings;
+use Text::Xslate;
 
-# がっつり社内システムに依存してるので秘密で…
+
+  # がっつり社内システムに依存してるので秘密で…
 
 
 =head1 NAME

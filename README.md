@@ -11,28 +11,18 @@ muninとmunin_managerは同居もできるが、別に考える。
 
 ### munin (クラスタノード)
 
-* config
-    `/etc/munin/munin.conf -> /var/lib/munin/munin.conf # symlink`
-
-* dbdir
-    `/var/lib/munin`
-
-* htmldir
-    `/var/lib/munin/html`
+* config  `/etc/munin/munin.conf -> /var/lib/munin/munin.conf # symlink`
+* dbdir   `/var/lib/munin`
+* htmldir `/var/lib/munin/html`
 
 ### munin-manager
 
-* config
-    `/etc/munin/munin-manager.conf`
-
-* dbdir
-    `/usr/local/munin-manager/lib`
-
-* htmldir
-    `/var/www/munin/html`
+* config  `/etc/munin/munin-manager.conf`
+* dbdir   `/usr/local/munin-manager/lib`
+* htmldir `/var/www/munin/html`
 
 
-## How to install
+## How to Setup
 
 ### munin (クラスタノード)
 
@@ -43,7 +33,7 @@ mv /etc/munin/munin.conf{,.orig}
 ln -s /var/lib/munin/munin.conf /etc/munin/munin.conf
 ```
 
-1. `/usr/bin/munin-cron` からmunin-htmlの実行をコメントアウトして、実行されないようにしておく
+1. `/usr/bin/munin-cron` からmunin-htmlの実行をコメントアウトして、実行されないようにしておく(作っても使われないので無駄)
 ```
 # nice /usr/share/munin/munin-html $@ || exit 1
 ```
@@ -59,7 +49,7 @@ ln -s /var/lib/munin/munin.conf /etc/munin/munin.conf
 1. このプロジェクトをmanagerサーバ /usr/local/munin-manager に置く
 ```
 cd /usr/local
-git clone git@xxxxx munin-manager
+git clone git@github.com:lamanotrama/munin-manager.git
 chown -R munin. munin-manager
 ```
 
@@ -68,7 +58,7 @@ chown -R munin. munin-manager
 cp munin-manager/misc/crontab /etc/cron.d/munin-manager
 ```
 
-1. 可能ならdbdir(`/var/www/munin/html`)はtmpfsを使う
+1. 可能ならhtmldir(`/var/www/munin/html`)はtmpfsを使う
 
 
 
