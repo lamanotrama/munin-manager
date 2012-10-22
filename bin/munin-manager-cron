@@ -1,0 +1,21 @@
+#!/bin/sh
+# Originally by kuroda
+#
+# cronで実行させて、データの収集とmunin-cronのかわりにhtmlの生成を行います。
+
+LOG_FACILITY=kern.info
+CONFIG=/etc/munin/munin-manager.conf
+
+case "$1" in
+"-a")
+    /usr/local/munin-manager/bin/aggregate.sh -ar
+    nice /usr/share/munin/munin-graph --config=$CONFIG \
+        --cron --skip-locking --host Total
+    nice /usr/share/munin/munin-html --config=$CONFIG
+    ;;
+*)
+    /usr/local/munin-manager/bin/aggregate.sh
+    nice /usr/share/munin/munin-html --config=$CONFIG
+    ;;
+esac 2>&1 | logger -p "$LOG_FACILITY" -t munin-manager-cron[$$]
+

@@ -1,0 +1,65 @@
+dbdir /usr/local/munin-manager/lib
+htmldir /var/www/html/munin
+
+[<: $service :>;]
+
+: for $nodes.keys() -> $role {
+[<: $service :>;<: $role :>;]
+    node_order Total <: $nodes[$role].map( -> $node { $node.name} ).join(' ') :>
+
+  : for $nodes[$role] -> $node {
+[<: $service :>;<: $role :>;<: $node.name :>]
+    address <: $node.addr :>
+    use_node_name yes
+  : }
+
+[<: $service :>;<: $role :>;Total]
+    update no
+
+    if_eth0.graph_order up down
+    if_eth0.graph_title eth0 traffic
+    if_eth0.graph_args --base 1000
+    if_eth0.graph_vlabel bits in (-) / out (+) per second
+    if_eth0.graph_category network
+    if_eth0.down.label in
+    if_eth0.down.cdef down,-8,*
+    if_eth0.up.label out
+    if_eth0.up.cdef up,8,*
+    if_eth0.down.sum \
+        <:
+            $nodes[$role]
+                .map( -> $node { $node.name ~ ':if_eth0.down' } )
+                .join(" \\\n        ")
+        :>
+    if_eth0.up.sum \
+        <:
+            $nodes[$role]
+                .map( -> $node { $node.name ~ ':if_eth0.up' } )
+                .join(" \\\n        ")
+        :>
+
+    if_eth1.graph_order up down
+    if_eth1.graph_title eth1 traffic
+    if_eth1.graph_args --base 1000
+    if_eth1.graph_vlabel bits in (-) / out (+) per second
+    if_eth1.graph_category network
+    if_eth1.down.label in
+    if_eth1.down.cdef down,-8,*
+    if_eth1.up.label out
+    if_eth1.up.cdef up,8,*
+    if_eth1.down.sum \
+        <:
+            $nodes[$role]
+                .map( -> $node { $node.name ~ ':if_eth1.down' } )
+                .join(" \\\n        ")
+        :>
+    if_eth1.up.sum \
+        <:
+            $nodes[$role]
+                .map( -> $node { $node.name ~ ':if_eth1.up' } )
+                .join(" \\\n        ")
+        :>
+
+
+: }
+

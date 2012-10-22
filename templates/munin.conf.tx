@@ -1,0 +1,18 @@
+dbdir   /var/lib/munin
+htmldir /var/lib/munin/html
+
+[<: $service :>;]
+
+: for $nodes.keys() -> $role {
+[<: $service :>;<: $role :>;]
+    node_order <: $nodes[$role].map( -> $node { $node.name} ).join(' ') :>
+
+  : for $nodes[$role] -> $node {
+[<: $service :>;<: $role :>;<: $node.name :>]
+    address <: $node.addr :>
+    use_node_name yes
+  : }
+
+
+
+: }

@@ -1,0 +1,10 @@
+#
+# cron-jobs for munin-manager
+#
+
+MAILTO=root
+
+*/10 * * * *      root    /usr/local/munin-manager/bin/confgen.pl
+3-59/10 * * * *   munin   /usr/local/munin-manager/bin/munin-manager-cron
+0 * * * *         munin   /usr/local/munin-manager/bin/munin-manager-cron -a
+
