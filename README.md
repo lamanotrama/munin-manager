@@ -39,8 +39,7 @@ ln -s /var/lib/munin/munin.conf /etc/munin/munin.conf
 ```
 
 1. 各muninサーバのデータを集めるのとconfを配布する用にrsyncdを使えるようにしておく
-  * `cat /usr/local/munin-manager/misc/rsyncd.conf >> /etc/rsyncd.conf`
-  * `service xinetd restart`
+  * [misc/rsyncd.conf](https://github.com/lamanotrama/munin-manager/blob/master/misc/rsyncd.conf)の内容を /etc/rsyncd.conf に書く。
 1. あとは、managerがconfigの生成とデータ収集を勝手にやってくれる
 
 ### munin-manager
